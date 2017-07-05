@@ -1,0 +1,62 @@
+# mean-stack-docker-deployment-
+MEAN STACK DOCKER DEPLOYMENT 
+DOCKER CREATION STEPS ON WINDOWS
+1. make project dir
+2. make sub project directory
+3. create Dockerfile with #instruction 
+
+# Create image based on the official Node 6 image from dockerhub
+FROM node:6
+
+# Create a directory where our app will be placed
+RUN mkdir -p /usr/src/app
+
+# Change directory so that our commands run inside this new directory
+WORKDIR /usr/src/app
+
+# Copy dependency definitions
+COPY package.json /usr/src/app
+
+# Install dependecies
+RUN npm install
+
+# Get all the code needed to run the app
+COPY . /usr/src/app
+
+# Expose the port the app runs in
+EXPOSE 4200
+
+# Serve the app
+CMD ["npm", "start"]
+
+4. create .dockerignore
+node_modules/
+
+5. in package.json chnage as follows
+
+{
+ ...
+  "scripts": {
+    "start": "ng serve -H 0.0.0.0",
+    ...
+  },
+  ...
+}
+
+6.Build Image
+move to sub project directory
+docker build -t angular-client:dev .
+
+7.Run Docker
+
+docker run -d --name angular-client -p 4200:4200 angular-client:dev
+
+8.Stop Docker
+
+docker stop angular-client
+
+9.Create above for express-server also
+10. Create container for mongodb
+11. Create docker composer
+12. Run With : docker-compose up --build
+
